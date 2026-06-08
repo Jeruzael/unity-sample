@@ -1,0 +1,51 @@
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+
+# Unity generated files
+*.log
+*.stackdump
+
+# Visual Studio / Rider / IDE files
+.vs/
+.idea/
+.vscode/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Unity crash reports
+sysinfo.txt
+
+# Build output
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# Blender backup files
+*.blend1
+*.blend1.meta
+
+# Asset Store tools
+[Aa]ssets/AssetStoreTools*
