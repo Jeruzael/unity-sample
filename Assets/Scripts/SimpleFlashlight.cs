@@ -50,6 +50,11 @@ public class SimpleFlashlight : MonoBehaviour
             return;
         }
 
+        if (SimpleAudioManager.Instance != null)
+        {
+            SimpleAudioManager.Instance.PlaySound(SimpleAudioManager.Instance.flashlightClickSound);
+        }
+
         isOn = !isOn;
         flashlightLight.enabled = isOn;
 

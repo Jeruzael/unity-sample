@@ -44,6 +44,7 @@ public class ExitDoorController : MonoBehaviour
         {
             shouldOpen = true;
             Debug.Log("Exit door opened!");
+            SimpleGameManager.Instance.DoorOpened();
         }
         else
         {
