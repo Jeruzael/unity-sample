@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 3
   tags:
   - Collectible
+  - SafeRoom
+  - Enemy
+  - Key
+  - player
   layers:
   - Default
   - TransparentFX

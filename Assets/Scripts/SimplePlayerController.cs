@@ -33,6 +33,15 @@ public class SimplePlayerController : MonoBehaviour
 
     void Update()
     {
+
+        if (SimpleGameManager.Instance != null)
+        {
+            if (SimpleGameManager.Instance.gameOver || SimpleGameManager.Instance.gameWon)
+            {
+                return;
+            }
+        }
+
         // Check if player is touching the ground
         isGrounded = Physics.CheckSphere(
             groundCheck.position,
@@ -134,6 +143,24 @@ public class SimplePlayerController : MonoBehaviour
             score++;
             Debug.Log("Collected an object!");
             Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("Key"))
+        {
+            SimpleGameManager.Instance.CollectKey();
+            Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("SafeRoom"))
+        {
+            if (SimpleGameManager.Instance.hasKey)
+            {
+                SimpleGameManager.Instance.WinGame();
+            }
+            else
+            {
+                Debug.Log("You reached the safe room, but you still need the key.");
+            }
         }
     }
 
