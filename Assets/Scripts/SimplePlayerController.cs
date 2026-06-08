@@ -12,6 +12,9 @@ public class SimplePlayerController : MonoBehaviour
     [Header("Camera")]
     public Transform cameraTransform;
 
+    [Header("Push Settings")]
+    public float pushPower = 3f;
+
     [Header("Ground Check")]
     public Transform groundCheck;
     public float groundDistance = 0.3f;
@@ -20,6 +23,8 @@ public class SimplePlayerController : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
+
+    private int score = 0;
 
     void Start()
     {
@@ -126,8 +131,36 @@ public class SimplePlayerController : MonoBehaviour
     {
         if (other.CompareTag("Collectible"))
         {
+            score++;
             Debug.Log("Collected an object!");
             Destroy(other.gameObject);
         }
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody body = hit.collider.attachedRigidbody;
+
+        // If the object has no Rigidbody, do nothing
+        if (body == null)
+        {
+            return;
+        }
+
+        // If the Rigidbody is kinematic, do nothing
+        if (body.isKinematic)
+        {
+            return;
+        }
+
+        // Do not push objects downward
+        if (hit.moveDirection.y < -0.3f)
+        {
+            return;
+        }
+
+        Vector3 pushDirection = new Vector3(hit.moveDirection.x, 0f, hit.moveDirection.z);
+
+        body.AddForce(pushDirection * pushPower, ForceMode.Impulse);
     }
 }
