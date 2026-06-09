@@ -1,0 +1,39 @@
+#pragma kernel CSMain
+
+struct TreeData {
+    float4x4 mat;
+};
+
+// Buffers containing all tree matrices (Input) and only visible matrices (Output)
+StructuredBuffer<TreeData> inputBuffers;
+AppendStructuredBuffer<TreeData> outputBuffers;
+
+// Array containing the 6 bounding planes of the camera view frustum
+float4 cameraFrustumPlanes[6]; 
+
+[numthreads(64, 1, 1)]
+void CSMain (uint3 id : SV_DispatchThreadID) {
+    // 1. Get the current tree data based on thread ID
+    TreeData tree = inputBuffers[id.x];
+    
+    // 2. Extract world position coordinates from the transformation matrix
+    float3 position = float3(tree.mat._m03, tree.mat._m13, tree.mat._m23);
+    
+    // 3. Simple Bounding Sphere Frustum Check
+    bool isVisible = true;
+    float radius = 5.0; // The approximate width/height radius of your tree model
+    
+    // Loop through all 6 camera view planes (Left, Right, Bottom, Top, Near, Far)
+    for (int i = 0; i < 6; i++) {
+        // Calculate distance from the plane to the tree center
+        if (dot(cameraFrustumPlanes[i].xyz, position) + cameraFrustumPlanes[i].w < -radius) {
+            isVisible = false; // Tree is entirely outside this plane boundary
+            break;
+        }
+    }
+    
+    // 4. If the tree passed the test, push it into the array of items to draw
+    if (isVisible) {
+        outputBuffers.Append(tree);
+    }
+}
